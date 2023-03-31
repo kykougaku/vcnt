@@ -22,13 +22,13 @@ class Atom{
 
 class Bond{
 	private:
-		vector<double> coord;
-		vector<double> angle;
+		Vector3d coord;
+		Vector3d angle;
 
 	public:
-		Bond(const vector<double>, const vector<double>);
-		vector<double> get_coord() const;
-		vector<double> get_angle() const;
+		Bond(Vector3d &a0, Vector3d &a1);
+		void getcoord(Vector3d &coord) const;
+		void getangle(Vector3d &angle) const;
 };
 
 
