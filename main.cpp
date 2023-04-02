@@ -16,8 +16,10 @@ int main(){
 
     timer::timemeasurer timer;
     timer.timerstart();
+
     //NanoTube *test = new NanoTube(n,m);
     NanoTube test(n,m);
+    test.graphene();
 
     timer.timerend();
 	std::cout << timer.result() << "ms"<<std::endl;

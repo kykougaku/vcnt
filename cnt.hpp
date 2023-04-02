@@ -44,6 +44,7 @@ class NanoTube{
 
 	public:
 		NanoTube(const int, const int);
+		void graphene(void);
 		void csv() const;
 };
 

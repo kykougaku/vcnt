@@ -45,6 +45,32 @@ NanoTube::NanoTube(const int n, const int m){
 	this->ch = this->n * a1 + this->m * a2;
 	this->lt << ch(1), -1*ch(0), 0;
 	this->r = ch.norm() * 0.5 / pi;
-	Vector3d temp0 (0.0, 0.0, 0.0);
-	this->Atoms.push_back(temp0);
+}
+void NanoTube::graphene(void){
+	vector<double> b(2);
+	vector<double> c(2);
+	int L1 = 100;
+	int L2 = 100;
+
+
+	for (int i = (-1*L1); i<L1; ++i)
+	{
+		for (int j = (-1*L2); j<L2; ++j)
+		{
+			// put atom A
+			b[0] = i + A[0];
+			b[1] = j + A[1];
+			c[0] = a1[0] * b[0] + a2[0] * b[1];
+			c[1] = a1[1] * b[0] + a2[1] * b[1];
+			Vector3d tempa(c.at(0), c.at(1), 0.0);
+			this->Atoms.push_back(tempa);
+			// put atom B
+			b[0] = i + B[0];
+			b[1] = j + B[1];
+			c[0] = a1[0] * b[0] + a2[0] * b[1];
+			c[1] = a1[1] * b[0] + a2[1] * b[1];
+			Vector3d tempb(c.at(0), c.at(1), 0.0);
+			this->Atoms.push_back(tempb);
+		}
+	}
 }
