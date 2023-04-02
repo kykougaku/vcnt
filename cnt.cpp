@@ -8,8 +8,8 @@
 using namespace Eigen;
 using namespace std;
 
-double pi = 3.14159;
-double a = 1.461;
+const double pi = 3.14159;
+const double a = 1.461;
 Vector3d a1 (a * 0.5 * 1.7320508, a * 0.5, 0.0);
 Vector3d a2 (a * 0.5 * 1.7320508, a * (-0.5), 0.0);
 Vector3d A (0.0, 0.0,0.0);
@@ -84,11 +84,12 @@ void NanoTube::graphene(void){
 			b[1] = j + B[1];
 			c[0] = a1[0] * b[0] + a2[0] * b[1];//carbon cluster type B in graphen posX
 			c[1] = a1[1] * b[0] + a2[1] * b[1];//carbon cluster type B in graphen posY
-
+			vector<double> chh = {func1(ac, 0.0, c.at(0)), func1(ac, lt(1)-(ch(1)/ch(0) * lt(0)), c.at(0))};
+			vector<double> ltt = {func1(al, 0.0, c.at(0)), func1(al, ch(1)-(lt(1)/lt(0) * ch(0)), c.at(0))};
 			//add carbon cluster in selected area
-			sort(cch.begin(), cch.end());
-			sort(llt.begin(), llt.end());
-			if(cch.at(0) <= c.at(1) && c.at(1)<= cch.at(1) && llt.at(0) <= c.at(1) && c.at(1) <= llt.at(1)){
+			sort(chh.begin(), chh.end());
+			sort(ltt.begin(), ltt.end());
+			if(chh.at(0) <= c.at(1) && c.at(1)<= chh.at(1) && ltt.at(0) <= c.at(1) && c.at(1) <= ltt.at(1)){
 				Vector3d tempb(c.at(0), c.at(1), 0.0);
 				this->Atoms.push_back(tempb);
 			}
