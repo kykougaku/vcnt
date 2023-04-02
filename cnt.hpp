@@ -8,6 +8,7 @@
 using namespace Eigen;
 using namespace std;
 
+
 class Atom{
 	private:
 		Vector3d coord;
@@ -35,13 +36,14 @@ class Bond{
 class NanoTube{
 	private:
 		int n, m;
-		vector<double> Ch;
-		int dR;
+		Vector3d ch;
+		Vector3d lt; 
+		int R;
 		vector<Atom> Atoms;
 		vector<Bond> Bonds;
 
 	public:
-		NanoTube(const int, const int, const string);
+		NanoTube(const int, const int);
 		void csv() const;
 };
 

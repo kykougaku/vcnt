@@ -6,8 +6,8 @@
 
 using namespace std;
 
-const double a = 2.461;     // lattice constant
- 
+double a = 2.461;     // lattice constant
+
 int main(void){
 	timer::timemeasurer timer;
 	timer.timerstart();
@@ -37,8 +37,8 @@ int main(void){
 			c[1] = a1[1] * b[0] + a2[1] * b[1];
 			outputfile<<"C"<<" "<<c[0]<<" "<<c[1]<<" 0.0"<<endl;
 			// put atom B
-			b[0] = (double)i + B[0];
-			b[1] = (double)j + B[1];
+			b[0] = i + B[0];
+			b[1] = j + B[1];
 			c[0] = a1[0] * b[0] + a2[0] * b[1];
 			c[1] = a1[1] * b[0] + a2[1] * b[1];
 			outputfile<<"C"<<" "<<c[0]<<" "<<c[1]<<" 0.0"<<endl;
