@@ -7,6 +7,7 @@
 using namespace Eigen;
 using namespace std;
 
+double pi = 3.14159;
 double a = 1.461;
 Vector3d a1 (a * 0.5 * 1.7320508, a * 0.5, 0.0);
 Vector3d a2 (a * 0.5 * 1.7320508, a * (-0.5), 0.0);
@@ -38,12 +39,12 @@ Bond::Bond(Vector3d &a0, Vector3d &a1){
 	this->angle(1) = atan( (a1(0)-a0(0)) / (a1(2)-a0(2)) );
 	this->angle(2) = 0.0;
 }
-////////////////////////////////////////////////////////
-
-//NanoTube//////////////////////////////////////////////
 NanoTube::NanoTube(const int n, const int m){
 	this->n = n;
 	this->m = m;
 	this->ch = this->n * a1 + this->m * a2;
 	this->lt << ch(1), -1*ch(0), 0;
+	this->r = ch.norm() * 0.5 / pi;
+	Vector3d temp0 (0.0, 0.0, 0.0);
+	this->Atoms.push_back(temp0);
 }

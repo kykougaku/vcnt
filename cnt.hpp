@@ -38,7 +38,7 @@ class NanoTube{
 		int n, m;
 		Vector3d ch;
 		Vector3d lt; 
-		int R;
+		int r;
 		vector<Atom> Atoms;
 		vector<Bond> Bonds;
 

@@ -12,5 +12,7 @@ int main(){
     int n,m;
     cout<<"input chilarity as n_m"<<endl;
     cin>>n>>m;
+    //NanoTube *test = new NanoTube(n,m);
+    NanoTube test(n,m);
     return 0;
 }
