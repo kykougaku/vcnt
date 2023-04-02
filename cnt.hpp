@@ -17,8 +17,9 @@ class Atom{
 		double getx() const;
 		double gety() const;
 		double getz() const;
-		void getcoord(Vector3d &coord) const;
-		//void tubize(const vector<double>);
+		void putx(double x);
+		void puty(double y);
+		void putz(double z);
 		Atom(Vector3d &coord);
 };
 

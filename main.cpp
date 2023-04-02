@@ -20,6 +20,7 @@ int main(){
     //NanoTube *test = new NanoTube(n,m);
     NanoTube test(n,m);
     test.graphene();
+    test.tube();
     test.csv();
 
     timer.timerend();

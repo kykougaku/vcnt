@@ -23,9 +23,9 @@ double func1(double a, double b, double x){
 double Atom::getx() const{return this->coord(0);}
 double Atom::gety() const{return this->coord(1);}
 double Atom::getz() const{return this->coord(2);}
-void Atom::getcoord(Vector3d &coord) const {
-	coord = this->coord;
-}
+void Atom::putx(double x) {this->coord(0) = x;}
+void Atom::puty(double y) {this->coord(1) = y;}
+void Atom::putz(double z) {this->coord(2) = z;}
 Atom::Atom(Vector3d &coord){
 	this->coord = coord;
 }
@@ -96,9 +96,23 @@ void NanoTube::graphene(void){
 
 		}
 	}
+	//rotate graphen
+	double thea = atan(ch(1)/ch(0));
+	Matrix3d roma;
+	roma << cos(thea), sin(thea), 0,
+		-1 * sin(thea), cos(thea), 0,
+			0,			0,			0;
+	for(int i=0; i<Atoms.size(); i++){
+		Vector3d tempp (Atoms.at(i).getx(), Atoms.at(i).gety(), Atoms.at(i).getz());
+		tempp = roma*tempp;
+		Atoms.at(i).putx(tempp(0)); Atoms.at(i).puty(tempp(1)); Atoms.at(i).putz(tempp(2));
+	}
 }
 void NanoTube::tube(void){
-
+	for(Atom temp : this->Atoms){
+		temp.putx(cos(2*pi*temp.getx()/this->r));
+		temp.putz(sin(2*pi*temp.getx()/this->r));
+	}
 }
 void NanoTube::csv(void){
 	ofstream outputfile("graphen_cuted.xyz");
