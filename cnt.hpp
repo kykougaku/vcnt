@@ -8,6 +8,7 @@
 using namespace Eigen;
 using namespace std;
 
+double func1(double a, double b, double x);
 
 class Atom{
 	private:
@@ -45,7 +46,8 @@ class NanoTube{
 	public:
 		NanoTube(const int, const int);
 		void graphene(void);
-		void csv() const;
+		void tube(void);
+		void csv(void);
 };
 
 #endif

@@ -11,7 +11,7 @@ using namespace std;
 
 int main(){
     int n,m;
-    cout<<"input chilarity as n_m"<<endl;
+    cout<<"input chilarity as nM"<<endl;
     cin>>n>>m;
 
     timer::timemeasurer timer;
@@ -20,6 +20,7 @@ int main(){
     //NanoTube *test = new NanoTube(n,m);
     NanoTube test(n,m);
     test.graphene();
+    test.csv();
 
     timer.timerend();
 	std::cout << timer.result() << "ms"<<std::endl;
