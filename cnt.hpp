@@ -19,7 +19,7 @@ class Atom{
 		double getz() const;
 		void putx(double x);
 		void puty(double y);
-		void putz(double z);
+		void pputz(double z);
 		Atom(Vector3d &coord);
 };
 
