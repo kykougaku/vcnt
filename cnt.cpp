@@ -39,18 +39,21 @@ Atom::Atom(Vector3d &coord){
 ////////////////////////////////////////////////////////
 
 //Bond//////////////////////////////////////////////////
-void Bond::getcoord(Vector3d &coord) const {
-	coord = this->coord;
-}
-void Bond::getangle(Vector3d &angle) const {
-	angle = this->angle;
-}
 Bond::Bond(Vector3d a0, Vector3d a1){
 	this->coord = (a0 + a1) / 2;
 	this->angle(0) = atan( (a1(1)-a0(1)) / (a1(2)-a0(2)) );
 	this->angle(1) = atan( (a1(0)-a0(0)) / (a1(2)-a0(2)) );
 	this->angle(2) = 0.0;
 }
+void Bond::getcoord(Vector3d &coord) const {
+	coord = this->coord;
+}
+double Bond::getx() const{return this->coord(0);}
+double Bond::gety() const{return this->coord(1);}
+double Bond::getz() const{return this->coord(2);}
+double Bond::getanglex() const{return this->angle(0);}
+double Bond::getangley() const{return this->angle(1);}
+double Bond::getanglez() const{return this->angle(2);}
 ////////////////////////////////////////////////////////
 
 //NanoTube//////////////////////////////////////////////
@@ -137,12 +140,21 @@ void NanoTube::bond(void){
 		}
 	}
 }
-void NanoTube::csv(void){
-	ofstream outputfile("graphen_cuted.xyz");
-	outputfile<<this->Atoms.size()<<endl;;
-	outputfile<<"graphen_cuted_sheet"<<endl;
-
+void NanoTube::xyz(void){
+	ofstream outputxyz("graphen_cuted.xyz");
+	outputxyz<<this->Atoms.size()<<endl;;
+	outputxyz<<"graphen_cuted_sheet"<<endl;
 	for(Atom temp : this->Atoms){
-		outputfile<<"C"<<" "<<temp.getx()<<" "<<temp.gety()<<" "<<temp.getz()<<endl;
+		outputxyz<<"C"<<" "<<temp.getx()<<" "<<temp.gety()<<" "<<temp.getz()<<endl;
+	}
+}
+void NanoTube::csv(void){
+	ofstream outputcsv("graphen_cuted.csv");
+	outputcsv<<"id,posx,posy,posz,angx,angy,angz"<<endl;
+	for(Atom temp : this->Atoms){//////////////////////id0...carbon clusters
+		outputcsv<<"0,"<<temp.getx()<<","<<temp.gety()<<","<<temp.getz()<<",0,0,0"<<endl;
+	}
+	for(Bond temp : this->Bonds){//////////////////////id1...bond between clusters
+		outputcsv<<"1,"<<temp.getx()<<","<<temp.gety()<<","<<temp.getz()<<","<<temp.getanglex()<<","<<temp.getangley()<<","<<temp.getanglez()<<endl;
 	}
 }

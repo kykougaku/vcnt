@@ -21,6 +21,7 @@ int main(){
     test.graphene();
     test.tube();
     test.bond();
+    test.xyz();
     test.csv();
 
     timer.timerend();

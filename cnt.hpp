@@ -30,7 +30,12 @@ class Bond{
 	public:
 		Bond(Vector3d a0, Vector3d a1);
 		void getcoord(Vector3d &coord) const;
-		void getangle(Vector3d &angle) const;
+		double getx() const;
+		double gety() const;
+		double getz() const;
+		double getanglex() const;
+		double getangley() const;
+		double getanglez() const;
 };
 
 class NanoTube{
@@ -46,6 +51,7 @@ class NanoTube{
 		void graphene(void);
 		void tube(void);
 		void bond(void);
+		void xyz(void);
 		void csv(void);
 };
 
