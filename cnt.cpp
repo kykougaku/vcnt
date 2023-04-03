@@ -1,7 +1,6 @@
 #include <Eigen/Dense>
 #include<iostream>
 #include<vector>
-#include<string>
 #include<fstream>
 #include<cmath>
 #include"cnt.hpp"
@@ -9,12 +8,18 @@
 using namespace Eigen;
 using namespace std;
 
-const double pi = 3.14159;
+const double pi = 3.14159265359;
 const double a = 1.461;
-Vector3d a1 (a * 0.5 * 1.7320508, a * 0.5, 0.0);
-Vector3d a2 (a * 0.5 * 1.7320508, a * (-0.5), 0.0);
+const double root3 = 1.73205080756;
+const double c2of3 =0.66666666666666;
+Vector3d a1 (a * 0.5 * root3, a * 0.5, 0.0);
+Vector3d a2 (a * 0.5 * root3, (-1)*a*0.5, 0.0);
 Vector3d A (0.0, 0.0,0.0);
-Vector3d B (0.6666666, 0.6666666, 0.0);
+Vector3d B (c2of3, c2of3, 0.0);
+
+const double bondl = a / root3;
+const double bond_error = bondl /10;
+const double total_bondl = bondl + bond_error;
 
 double func1(double a, double b, double x){
 	return a*x+b;
@@ -27,6 +32,7 @@ double Atom::getz() const{return this->coord(2);}
 void Atom::putx(double x) {this->coord(0) = x;}
 void Atom::puty(double y) {this->coord(1) = y;}
 void Atom::pputz(double z) {this->coord(2) = z;}
+Vector3d Atom::getcoord(void){return coord;}
 Atom::Atom(Vector3d &coord){
 	this->coord = coord;
 }
@@ -52,8 +58,8 @@ NanoTube::NanoTube(const int n, const int m){
 	this->n = n;
 	this->m = m;
 	this->ch = n * a1 + m * a2;
-	this->lt << -1*ch(1), ch(0), 0;
-	this->r = ch.norm() /2 / pi;
+	this->lt << -1*this->ch(1), this->ch(0), 0;
+	this->r = this->ch.norm() *0.5 / pi;
 }
 void NanoTube::graphene(void){
 	vector<double> b(2);
@@ -98,16 +104,17 @@ void NanoTube::graphene(void){
 			}
 		}
 	}
-	//rotate graphen carbon cluster
+	//rotate graphen sheet
 	double thea = atan(ch(1)/ch(0));//Ch theta
-	Matrix3d roma;//inverse rotate matrix
+	Matrix3d roma;//inverse rotation matrix
 	roma << cos(thea), sin(thea), 0,
 		-1 * sin(thea), cos(thea), 0,
 			0,			0,			0;
 	for(int i=0; i<Atoms.size(); i++){
 		Vector3d tempp (Atoms.at(i).getx(), Atoms.at(i).gety(), Atoms.at(i).getz());
-		tempp = roma*tempp;
-		Atoms.at(i).putx(tempp(0)); Atoms.at(i).puty(tempp(1)); Atoms.at(i).pputz(tempp(2));
+		Vector3d ttempp;
+		ttempp = roma*tempp;
+		Atoms.at(i).putx(ttempp(0)); Atoms.at(i).puty(ttempp(1)); Atoms.at(i).pputz(ttempp(2));
 	}
 }
 void NanoTube::tube(void){
@@ -115,6 +122,17 @@ void NanoTube::tube(void){
 		double thea = Atoms.at(i).getx()/this->r;
 		Atoms.at(i).putx(this->r * cos(thea));
 		Atoms.at(i).pputz(this->r * sin(thea));
+	}
+}
+void NanoTube::bond(void){
+	for(int i = 0; i<Atoms.size()-1; i++){
+		for(int j = i+1; j<Atoms.size(); j++){
+			Vector3d bondvec;
+			bondvec = Atoms.at(i).getcoord() - Atoms.at(j).getcoord();
+			if(bondvec.norm() <= total_bondl){
+				//this->Bonds.push_back()
+			}			
+		}
 	}
 }
 void NanoTube::csv(void){

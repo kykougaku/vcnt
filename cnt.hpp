@@ -3,7 +3,6 @@
 
 #include <Eigen/Dense>
 #include<vector>
-#include<string>
 
 using namespace Eigen;
 using namespace std;
@@ -20,6 +19,7 @@ class Atom{
 		void putx(double x);
 		void puty(double y);
 		void pputz(double z);
+		Vector3d getcoord(void);
 		Atom(Vector3d &coord);
 };
 
@@ -27,27 +27,25 @@ class Bond{
 	private:
 		Vector3d coord;
 		Vector3d angle;
-
 	public:
 		Bond(Vector3d &a0, Vector3d &a1);
 		void getcoord(Vector3d &coord) const;
 		void getangle(Vector3d &angle) const;
 };
 
-
 class NanoTube{
 	private:
 		int n, m;
 		Vector3d ch;
 		Vector3d lt; 
-		int r;
+		double r;
 		vector<Atom> Atoms;
 		vector<Bond> Bonds;
-
 	public:
 		NanoTube(const int, const int);
 		void graphene(void);
 		void tube(void);
+		void bond(void);
 		void csv(void);
 };
 
