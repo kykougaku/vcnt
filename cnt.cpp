@@ -45,7 +45,7 @@ void Bond::getcoord(Vector3d &coord) const {
 void Bond::getangle(Vector3d &angle) const {
 	angle = this->angle;
 }
-Bond::Bond(Vector3d &a0, Vector3d &a1){
+Bond::Bond(Vector3d a0, Vector3d a1){
 	this->coord = (a0 + a1) / 2;
 	this->angle(0) = atan( (a1(1)-a0(1)) / (a1(2)-a0(2)) );
 	this->angle(1) = atan( (a1(0)-a0(0)) / (a1(2)-a0(2)) );
@@ -85,7 +85,8 @@ void NanoTube::graphene(void){
 			sort(llt.begin(), llt.end());
 			if(cch.at(0) <= c.at(1) && c.at(1)<= cch.at(1) && llt.at(0) <= c.at(1) && c.at(1) <= llt.at(1)){
 				Vector3d tempa(c.at(0), c.at(1), 0.0);
-				this->Atoms.push_back(tempa);
+				Atom tempaa(tempa);
+				this->Atoms.push_back(tempaa);
 			}
 
 			// put atom B
@@ -100,7 +101,8 @@ void NanoTube::graphene(void){
 			sort(ltt.begin(), ltt.end());
 			if(chh.at(0) <= c.at(1) && c.at(1)<= chh.at(1) && ltt.at(0) <= c.at(1) && c.at(1) <= ltt.at(1)){
 				Vector3d tempb(c.at(0), c.at(1), 0.0);
-				this->Atoms.push_back(tempb);
+				Atom tempba(tempb);
+				this->Atoms.push_back(tempba);
 			}
 		}
 	}
@@ -112,9 +114,8 @@ void NanoTube::graphene(void){
 			0,			0,			0;
 	for(int i=0; i<Atoms.size(); i++){
 		Vector3d tempp (Atoms.at(i).getx(), Atoms.at(i).gety(), Atoms.at(i).getz());
-		Vector3d ttempp;
-		ttempp = roma*tempp;
-		Atoms.at(i).putx(ttempp(0)); Atoms.at(i).puty(ttempp(1)); Atoms.at(i).pputz(ttempp(2));
+		tempp = roma*tempp;
+		Atoms.at(i).putx(tempp(0)); Atoms.at(i).puty(tempp(1)); Atoms.at(i).pputz(tempp(2));
 	}
 }
 void NanoTube::tube(void){
@@ -130,7 +131,8 @@ void NanoTube::bond(void){
 			Vector3d bondvec;
 			bondvec = Atoms.at(i).getcoord() - Atoms.at(j).getcoord();
 			if(bondvec.norm() <= total_bondl){
-				//this->Bonds.push_back()
+				Bond tempbond (Atoms.at(i).getcoord(), Atoms.at(j).getcoord());
+				this->Bonds.push_back(tempbond);
 			}			
 		}
 	}

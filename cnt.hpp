@@ -28,7 +28,7 @@ class Bond{
 		Vector3d coord;
 		Vector3d angle;
 	public:
-		Bond(Vector3d &a0, Vector3d &a1);
+		Bond(Vector3d a0, Vector3d a1);
 		void getcoord(Vector3d &coord) const;
 		void getangle(Vector3d &angle) const;
 };
