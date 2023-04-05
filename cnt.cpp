@@ -20,11 +20,8 @@ Vector3d B (c2of3, c2of3, 0.0);
 const double bondl = a / root3;
 const double bond_error = bondl /10;
 const double judge_bondl = bondl + bond_error;
-
-const double func_error = 1.0e-4;
-int funccheck(double x0, double y0){
-	if ((-1)*func_error<=x0 && x0<=func_error) return 1;
-	else return 0;
+double funcx(double a, double b, double y){
+	return a*y+b;
 }
 double funcy(double a, double b, double x){
 	return a*x+b;
@@ -79,7 +76,12 @@ void NanoTube::graphene(void){
 	int L1 = 1000;
 	int L2 = 1000;
 	double ac =ch(1)/ch(0);
-	double al =lt(1)/lt(0);
+	double al =lt(0)/lt(1);
+	double thea = atan(ac);//Ch theta
+	Matrix3d roma;//inverse rotation matrix
+	roma << cos(thea), sin(thea), 0,
+		-1 * sin(thea), cos(thea), 0,
+			0,			0,			0;
 
 	for (int i = (-1*L1); i<L1; ++i)
 	{
@@ -91,11 +93,11 @@ void NanoTube::graphene(void){
 			c[0] = a1[0] * b[0] + a2[0] * b[1];//carbon cluster type A in graphen posX
 			c[1] = a1[1] * b[0] + a2[1] * b[1];//carbon cluster type A in graphen posY
 			//add type A carbon cluster only in selected area
-			vector<double> cch = {func1(ac, 0.0, c.at(0)), func1(ac, lt(1)-(ch(1)/ch(0) * lt(0)), c.at(0))};
-			vector<double> llt = {func1(al, 0.0, c.at(0)), func1(al, ch(1)-(lt(1)/lt(0) * ch(0)), c.at(0))};
+			vector<double> cch = {funcy(ac, 0.0, c.at(0)), funcy(ac, lt(1)-(ch(1)/ch(0) * lt(0)), c.at(0))};
+			vector<double> llt = {funcx(al, 0.0, c.at(0)), funcx(al, ch(1)-(lt(1)/lt(0) * ch(0)), c.at(0))};
 			sort(cch.begin(), cch.end());
 			sort(llt.begin(), llt.end());
-			if(cch.at(0) <= c.at(1) && c.at(1)<= cch.at(1) && llt.at(0) <= c.at(1) && c.at(1) <= llt.at(1)){
+			if(cch.at(0) <= c.at(1) && c.at(1)<= cch.at(1) && llt.at(0) <= c.at(0) && c.at(0) <= llt.at(1)){
 				Vector3d tempa(c.at(0), c.at(1), 0.0);
 				Atom tempaa(tempa);
 				this->Atoms.push_back(tempaa);
@@ -107,8 +109,8 @@ void NanoTube::graphene(void){
 			c[0] = a1[0] * b[0] + a2[0] * b[1];//carbon cluster type B in graphen posX
 			c[1] = a1[1] * b[0] + a2[1] * b[1];//carbon cluster type B in graphen posY
 			//add type B carbon cluster only in selected area
-			vector<double> chh = {func1(ac, 0.0, c.at(0)), func1(ac, lt(1)-(ch(1)/ch(0) * lt(0)), c.at(0))};
-			vector<double> ltt = {func1(al, 0.0, c.at(0)), func1(al, ch(1)-(lt(1)/lt(0) * ch(0)), c.at(0))};
+			vector<double> chh = {funcy(ac, 0.0, c.at(0)), funcy(ac, lt(1)-(ch(1)/ch(0) * lt(0)), c.at(0))};
+			vector<double> ltt = {funcx(al, 0.0, c.at(0)), funcx(al, ch(1)-(lt(1)/lt(0) * ch(0)), c.at(0))};
 			sort(chh.begin(), chh.end());
 			sort(ltt.begin(), ltt.end());
 			if(chh.at(0) <= c.at(1) && c.at(1)<= chh.at(1) && ltt.at(0) <= c.at(1) && c.at(1) <= ltt.at(1)){
@@ -119,11 +121,6 @@ void NanoTube::graphene(void){
 		}
 	}
 	//rotate graphen sheet
-	double thea = atan(ch(1)/ch(0));//Ch theta
-	Matrix3d roma;//inverse rotation matrix
-	roma << cos(thea), sin(thea), 0,
-		-1 * sin(thea), cos(thea), 0,
-			0,			0,			0;
 	for(int i=0; i<Atoms.size(); i++){
 		Vector3d tempp (Atoms.at(i).getx(), Atoms.at(i).gety(), Atoms.at(i).getz());
 		tempp = roma*tempp;

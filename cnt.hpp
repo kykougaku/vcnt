@@ -7,7 +7,8 @@
 using namespace Eigen;
 using namespace std;
 
-double func1(double a, double b, double x);
+double funcx(double a, double b, double y);
+double funcy(double a, double b, double x);
 
 class Atom{
 	private:
