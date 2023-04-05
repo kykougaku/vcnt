@@ -17,12 +17,13 @@ int main(){
     timer::timemeasurer timer;
     timer.timerstart();
 
-    NanoTube test(n,m);
+    double length = 30.0;
+    NanoTube test(n,m,length);
     test.graphene();
-    test.tube();
-    test.bond();
+   //test.tube();
+    //test.bond();
     test.xyz();
-    test.csv();
+    //test.csv();
 
     timer.timerend();
 	std::cout << timer.result() << "ms"<<std::endl;

@@ -43,11 +43,11 @@ class NanoTube{
 		int n, m;
 		Vector3d ch;
 		Vector3d lt; 
-		double r;
+		double r,length;
 		vector<Atom> Atoms;
 		vector<Bond> Bonds;
 	public:
-		NanoTube(const int, const int);
+		NanoTube(const int, const int, const double);
 		void graphene(void);
 		void tube(void);
 		void bond(void);

@@ -57,11 +57,12 @@ double Bond::getanglez() const{return this->angle(2);}
 ////////////////////////////////////////////////////////
 
 //NanoTube//////////////////////////////////////////////
-NanoTube::NanoTube(const int n, const int m){
+NanoTube::NanoTube(const int n, const int m, const double length){
 	this->n = n;
 	this->m = m;
+	this->length = length;
 	this->ch = n * a1 + m * a2;
-	this->lt << -1*this->ch(1), this->ch(0), 0;
+	this->lt << -1*this->ch(1)/this->ch.norm()*length, this->ch(0)/this->ch.norm()*length, 0;
 	this->r = this->ch.norm() *0.5 / pi;
 }
 void NanoTube::graphene(void){
