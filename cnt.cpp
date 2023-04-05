@@ -19,7 +19,7 @@ Vector3d B (c2of3, c2of3, 0.0);
 
 const double bondl = a / root3;
 const double bond_error = bondl /10;
-const double total_bondl = bondl + bond_error;
+const double judge_bondl = bondl + bond_error;
 
 double func1(double a, double b, double x){
 	return a*x+b;
@@ -133,7 +133,7 @@ void NanoTube::bond(void){
 		for(int j = i+1; j<Atoms.size(); j++){
 			Vector3d bondvec;
 			bondvec = Atoms.at(i).getcoord() - Atoms.at(j).getcoord();
-			if(bondvec.norm() <= total_bondl){
+			if(bondvec.norm() <= judge_bondl){
 				Bond tempbond (Atoms.at(i).getcoord(), Atoms.at(j).getcoord());
 				this->Bonds.push_back(tempbond);
 			}			
