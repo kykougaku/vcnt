@@ -12,8 +12,8 @@ const double pi = 3.14159265359;
 const double a = 1.461;
 const double root3 = 1.73205080756;
 const double c2of3 =0.66666666666666;
-Vector3d a1 (a * 0.5 * root3, a * 0.5, 0.0);
-Vector3d a2 (a * 0.5 * root3, (-1)*a*0.5, 0.0);
+Vector3d a1 (a, 0.0, 0.0);
+Vector3d a2 (a * 0.5, a*0.5*root3, 0.0);
 Vector3d A (0.0, 0.0,0.0);
 Vector3d B (c2of3, c2of3, 0.0);
 
@@ -21,10 +21,14 @@ const double bondl = a / root3;
 const double bond_error = bondl /10;
 const double judge_bondl = bondl + bond_error;
 
-double func1(double a, double b, double x){
+const double func_error = 1.0e-4;
+int funccheck(double x0, double y0){
+	if ((-1)*func_error<=x0 && x0<=func_error) return 1;
+	else return 0;
+}
+double funcy(double a, double b, double x){
 	return a*x+b;
 }
-
 //Atom//////////////////////////////////////////////////
 double Atom::getx() const{return this->coord(0);}
 double Atom::gety() const{return this->coord(1);}
@@ -62,7 +66,11 @@ NanoTube::NanoTube(const int n, const int m, const double length){
 	this->m = m;
 	this->length = length;
 	this->ch = n * a1 + m * a2;
-	this->lt << -1*this->ch(1)/this->ch.norm()*length, this->ch(0)/this->ch.norm()*length, 0;
+	Matrix3d ro90;
+	ro90 << 0, (-1)*length/this->ch.norm(), 0,
+			1*length/this->ch.norm(), 0, 0,
+			0, 0, 0;
+	this->lt = ro90 * ch;
 	this->r = this->ch.norm() *0.5 / pi;
 }
 void NanoTube::graphene(void){

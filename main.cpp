@@ -13,6 +13,14 @@ int main(){
     int n,m;
     cout<<"input chilarity as nM"<<endl;
     cin>>n>>m;
+    if(! n>=m){
+        cout<<"error n,m should be n>m or n=m !";
+        return 0;
+    }
+    else if (n<=0 || m<0){
+        cout<<"error n should be n>0 and m should be m=0 or m>0 !";
+        return 0;
+    }
 
     timer::timemeasurer timer;
     timer.timerstart();
