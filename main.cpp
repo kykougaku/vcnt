@@ -14,18 +14,19 @@ int main(){
     string atomid0, atomid1;
     cout<<"input chilarity as n_m. n_m should be n>m or n=m"<<endl;
     cin>>n>>m;
+        if(n<m){
+            cout<<"error n,m should be n>m or n=m !"<<endl;
+            return 0;
+        }
+        else if (n<=0 || m<0){
+            cout<<"error n should be n>0 and m should be m=0 or m>0 !"<<endl;
+            return 0;
+        }
     cout<<"input first atom type"<<endl;
     cin>>atomid0;
     cout<<"input final atom type"<<endl;
     cin>>atomid1;
-    if(n<m){
-        cout<<"error n,m should be n>m or n=m !"<<endl;
-        return 0;
-    }
-    else if (n<=0 || m<0){
-        cout<<"error n should be n>0 and m should be m=0 or m>0 !"<<endl;
-        return 0;
-    }
+
 
     timer::timemeasurer timer;
     timer.timerstart();
