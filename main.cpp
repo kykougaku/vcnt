@@ -11,8 +11,13 @@ using namespace std;
 
 int main(){
     int n,m;
+    string atomid0, atomid1;
     cout<<"input chilarity as n_m. n_m should be n>m or n=m"<<endl;
     cin>>n>>m;
+    cout<<"input first atom type"<<endl;
+    cin>>atomid0;
+    cout<<"input final atom type"<<endl;
+    cin>>atomid1;
     if(n<m){
         cout<<"error n,m should be n>m or n=m !"<<endl;
         return 0;
@@ -27,7 +32,7 @@ int main(){
 
     double length = 30.0;
     NanoTube test(n,m,length);
-    test.graphene("B","N");
+    test.graphene(atomid0, atomid1);
     test.tube();
     test.bond();
     test.xyz();
