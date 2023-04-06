@@ -11,14 +11,14 @@ using namespace std;
 
 int main(){
     int n,m;
-    cout<<"input chilarity as nM"<<endl;
+    cout<<"input chilarity as n_m. n_m should be n>m or n=m"<<endl;
     cin>>n>>m;
-    if(! n>=m){
-        cout<<"error n,m should be n>m or n=m !";
+    if(n<m){
+        cout<<"error n,m should be n>m or n=m !"<<endl;
         return 0;
     }
     else if (n<=0 || m<0){
-        cout<<"error n should be n>0 and m should be m=0 or m>0 !";
+        cout<<"error n should be n>0 and m should be m=0 or m>0 !"<<endl;
         return 0;
     }
 
@@ -27,11 +27,11 @@ int main(){
 
     double length = 30.0;
     NanoTube test(n,m,length);
-    test.graphene();
-   //test.tube();
-    //test.bond();
+    test.graphene("B","N");
+    test.tube();
+    test.bond();
     test.xyz();
-    //test.csv();
+    test.csv();
 
     timer.timerend();
 	std::cout << timer.result() << "ms"<<std::endl;

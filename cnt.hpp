@@ -9,19 +9,22 @@ using namespace std;
 
 double funcx(double a, double b, double y);
 double funcy(double a, double b, double x);
+int examin_the_size(double a, double b, double vari);
 
 class Atom{
 	private:
 		Vector3d coord;
+		string id;
 	public:
 		double getx() const;
 		double gety() const;
 		double getz() const;
+		string getid() const;
 		void putx(double x);
 		void puty(double y);
 		void pputz(double z);
 		Vector3d getcoord(void);
-		Atom(Vector3d &coord);
+		Atom(Vector3d &coord, string s);
 };
 
 class Bond{
@@ -49,7 +52,7 @@ class NanoTube{
 		vector<Bond> Bonds;
 	public:
 		NanoTube(const int, const int, const double);
-		void graphene(void);
+		void graphene(string aid, string bid);
 		void tube(void);
 		void bond(void);
 		void xyz(void);

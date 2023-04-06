@@ -3,6 +3,7 @@
 #include<vector>
 #include<fstream>
 #include<cmath>
+#include<string>
 #include"cnt.hpp"
 
 using namespace Eigen;
@@ -26,16 +27,27 @@ double funcx(double a, double b, double y){
 double funcy(double a, double b, double x){
 	return a*x+b;
 }
+int examin_the_size(double a, double b, double vari){
+	//if >>>>>>>> vari < min_of_a_or_b < max_of_a_or_b >>>>>return 0
+	//if >>>>>>>> min_of_a_or_b < vari < max_of_a_or_b >>>>>return 1
+	//if >>>>>>>> min_of_a_or_b < max_of_a_or_b < vari >>>>>return 0
+	vector<double> temp = {a,b};
+	sort(temp.begin(), temp.end());
+	if (temp.at(0) < vari && vari <= temp.at(1)) return 1;
+	else return 0;
+}
 //Atom//////////////////////////////////////////////////
 double Atom::getx() const{return this->coord(0);}
 double Atom::gety() const{return this->coord(1);}
 double Atom::getz() const{return this->coord(2);}
+string Atom::getid() const{return this->id;}
 void Atom::putx(double x) {this->coord(0) = x;}
 void Atom::puty(double y) {this->coord(1) = y;}
 void Atom::pputz(double z) {this->coord(2) = z;}
 Vector3d Atom::getcoord(void){return coord;}
-Atom::Atom(Vector3d &coord){
+Atom::Atom(Vector3d &coord, string s){
 	this->coord = coord;
+	this->id = s;
 }
 ////////////////////////////////////////////////////////
 
@@ -70,7 +82,7 @@ NanoTube::NanoTube(const int n, const int m, const double length){
 	this->lt = ro90 * ch;
 	this->r = this->ch.norm() *0.5 / pi;
 }
-void NanoTube::graphene(void){
+void NanoTube::graphene(string aid, string bid){
 	vector<double> b(2);
 	vector<double> c(2);
 	int L1 = 1000;
@@ -93,13 +105,12 @@ void NanoTube::graphene(void){
 			c[0] = a1[0] * b[0] + a2[0] * b[1];//carbon cluster type A in graphen posX
 			c[1] = a1[1] * b[0] + a2[1] * b[1];//carbon cluster type A in graphen posY
 			//add type A carbon cluster only in selected area
-			vector<double> cch = {funcy(ac, 0.0, c.at(0)), funcy(ac, lt(1)-(ch(1)/ch(0) * lt(0)), c.at(0))};
 			vector<double> llt = {funcx(al, 0.0, c.at(0)), funcx(al, ch(1)-(lt(1)/lt(0) * ch(0)), c.at(0))};
-			sort(cch.begin(), cch.end());
-			sort(llt.begin(), llt.end());
-			if(cch.at(0) <= c.at(1) && c.at(1)<= cch.at(1) && llt.at(0) <= c.at(0) && c.at(0) <= llt.at(1)){
+			if(examin_the_size(funcy(ac, 0.0, c.at(0)), funcy(ac, lt(1)-(ac*lt(0)), c.at(0)), c.at(1))
+			 && examin_the_size(funcx(al, 0.0, c.at(1)), funcx(al, ch(0)-(al*ch(1)), c.at(1)), c.at(0)) 
+			 ){
 				Vector3d tempa(c.at(0), c.at(1), 0.0);
-				Atom tempaa(tempa);
+				Atom tempaa(tempa, aid);
 				this->Atoms.push_back(tempaa);
 			}
 
@@ -115,7 +126,7 @@ void NanoTube::graphene(void){
 			sort(ltt.begin(), ltt.end());
 			if(chh.at(0) <= c.at(1) && c.at(1)<= chh.at(1) && ltt.at(0) <= c.at(1) && c.at(1) <= ltt.at(1)){
 				Vector3d tempb(c.at(0), c.at(1), 0.0);
-				Atom tempba(tempb);
+				Atom tempba(tempb, bid);
 				this->Atoms.push_back(tempba);
 			}
 		}
@@ -149,18 +160,18 @@ void NanoTube::bond(void){
 void NanoTube::xyz(void){
 	ofstream outputxyz("graphen_cuted.xyz");
 	outputxyz<<this->Atoms.size()<<endl;;
-	outputxyz<<"graphen_cuted_sheet"<<endl;
+	outputxyz<<"id,posx,posy,posz"<<endl;
 	for(Atom temp : this->Atoms){
-		outputxyz<<"C"<<" "<<temp.getx()<<" "<<temp.gety()<<" "<<temp.getz()<<endl;
+		outputxyz<<temp.getid()<<" "<<temp.getx()<<" "<<temp.gety()<<" "<<temp.getz()<<endl;
 	}
 }
 void NanoTube::csv(void){
 	ofstream outputcsv("graphen_cuted.csv");
 	outputcsv<<"id,posx,posy,posz,angx,angy,angz"<<endl;
 	for(Atom temp : this->Atoms){//////////////////////id0...carbon clusters
-		outputcsv<<"0,"<<temp.getx()<<","<<temp.gety()<<","<<temp.getz()<<",0,0,0"<<endl;
+		outputcsv<<temp.getid()<<","<<temp.getx()<<","<<temp.gety()<<","<<temp.getz()<<",0,0,0"<<endl;
 	}
 	for(Bond temp : this->Bonds){//////////////////////id1...bond between clusters
-		outputcsv<<"1,"<<temp.getx()<<","<<temp.gety()<<","<<temp.getz()<<","<<temp.getanglex()<<","<<temp.getangley()<<","<<temp.getanglez()<<endl;
+		outputcsv<<"bond"<<","<<temp.getx()<<","<<temp.gety()<<","<<temp.getz()<<","<<temp.getanglex()<<","<<temp.getangley()<<","<<temp.getanglez()<<endl;
 	}
 }
